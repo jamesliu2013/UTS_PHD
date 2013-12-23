@@ -1,0 +1,117 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+class Surface extends JPanel {
+
+	private void doDrawing(Graphics g) {
+
+		Graphics2D g2d = (Graphics2D) g;
+
+		g2d.setColor(Color.blue);
+
+		Dimension size = getSize();
+		Insets insets = getInsets();
+
+		int w = size.width - insets.left - insets.right;
+		int h = size.height - insets.top - insets.bottom;
+
+		File file = null;
+		FileReader fr = null;
+		LineNumberReader lnr = null;
+		String file1 = "/Users/anjinliu/Desktop/experiment_datasets/gaussian_data/raw1.csv";
+		double max = 0;
+		double min = 30;
+		double raw_value_x;
+		double raw_value_y;
+
+		try {
+			file = new File(file1);
+			fr = new FileReader(file);
+			lnr = new LineNumberReader(fr);
+			String line = "";
+
+			while ((line = lnr.readLine()) != null) {
+				if (line.split(";")[2].equals("4")) {
+					raw_value_x = Double.parseDouble(line.split(";")[1]);
+					raw_value_y = Double.parseDouble(line.split(";")[0]);
+					int x = (int) ((raw_value_x+5) * 10);
+					int y = (int) ((raw_value_y+5) * 10);
+					System.out.println(x);
+					g2d.drawLine(x, y, x, y);
+					try {
+						TimeUnit.MILLISECONDS.sleep(1);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+
+			fr.close();
+			lnr.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Random r = new Random();
+		//
+		// for (int i = 0; i < 1000; i++) {
+		//
+		// int x = Math.abs(r.nextInt()) % w;
+		// int y = Math.abs(r.nextInt()) % h;
+		// g2d.drawLine(x, y, x, y);
+		// }
+	}
+
+	@Override
+	public void paintComponent(Graphics g) {
+
+		super.paintComponent(g);
+		doDrawing(g);
+	}
+}
+
+public class Points extends JFrame {
+
+	public Points() {
+
+		initUI();
+	}
+
+	private void initUI() {
+
+		setTitle("Points");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		add(new Surface());
+
+		setSize(500, 500);
+		setLocationRelativeTo(null);
+	}
+
+	public static void main(String[] args) {
+
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+
+				Points ps = new Points();
+				ps.setVisible(true);
+			}
+		});
+	}
+}

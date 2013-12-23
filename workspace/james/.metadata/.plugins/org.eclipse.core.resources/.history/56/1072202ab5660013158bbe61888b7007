@@ -1,0 +1,46 @@
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.LineNumberReader;
+
+public class main {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		File file = null;
+		FileReader fr = null;
+		LineNumberReader lnr = null;
+		String file1 = "/Users/anjinliu/Desktop/experiment_datasets/gaussian_data/raw1.csv";
+		int max=0;
+		int min=30;
+		double raw_value;
+		
+		try {
+			file = new File(file1);
+			fr = new FileReader(file);
+			lnr = new LineNumberReader(fr);
+			String line = "";
+
+			while ((line = lnr.readLine()) != null) {
+				
+				raw_value = Double.parseDoubleline.split(";")[1]);
+				System.out.println(line);
+//				if (line.toLowerCase().contains(args[0].toLowerCase())) {
+//					
+//				}
+			}
+
+			fr.close();
+			lnr.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+
+}
